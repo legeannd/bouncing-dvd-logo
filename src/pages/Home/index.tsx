@@ -11,7 +11,6 @@ export function Home() {
 
   useEffect(() => {
     const handleWindowResize = () => {
-      console.log(window.innerHeight, window.innerWidth)
       setMaxSize({ width: window.innerWidth, height: window.innerHeight })
     }
 

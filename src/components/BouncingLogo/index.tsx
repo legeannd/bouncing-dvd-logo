@@ -14,13 +14,21 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
   const [position, setPosition] = useState({ top: 0, left: 0 })
   const [lastSide, setLastSide] = useState('')
   const [secondLastSide, setSecondLastSide] = useState('')
-  const [thirdLastSide, setThirdLastSide] = useState('')
+  const [horizontalDir, setHorizontalDir] = useState('down')
   const [direction, setDirection] = useState('foward')
   const [color, setColor] = useState('')
 
   function generateColor() {
     return `#${Math.random().toString(16).slice(-6)}`
   }
+
+  useEffect(() => {
+    console.log('--------------')
+    console.log(direction, 'direction')
+    console.log(horizontalDir, 'horizontalDir')
+    console.log(lastSide, 'last')
+    console.log('--------------')
+  }, [lastSide])
 
   useEffect(() => {
     setColor(generateColor())
@@ -31,8 +39,8 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
       if (logoRef.current) {
         if (maxSize.height - logoRef.current.offsetHeight <= position.top) {
           if (lastSide !== '' && lastSide !== 'bottom') {
+            setHorizontalDir('up')
             if (secondLastSide !== '') {
-              setThirdLastSide(secondLastSide)
               setSecondLastSide(lastSide)
               setLastSide('bottom')
             } else {
@@ -49,7 +57,6 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           if (lastSide !== '' && lastSide !== 'right') {
             setDirection('back')
             if (secondLastSide !== '') {
-              setThirdLastSide(secondLastSide)
               setSecondLastSide(lastSide)
               setLastSide('right')
             } else {
@@ -61,8 +68,8 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           }
         } else if (position.top === 0) {
           if (lastSide !== '' && lastSide !== 'top') {
+            setHorizontalDir('down')
             if (secondLastSide !== '') {
-              setThirdLastSide(secondLastSide)
               setSecondLastSide(lastSide)
               setLastSide('top')
             } else {
@@ -76,7 +83,6 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           setDirection('foward')
           if (lastSide !== '' && lastSide !== 'left') {
             if (secondLastSide !== '') {
-              setThirdLastSide(secondLastSide)
               setSecondLastSide(lastSide)
               setLastSide('left')
             } else {
@@ -89,33 +95,11 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
         }
 
         if (lastSide === 'bottom') {
-          if (secondLastSide === 'right') {
+          if (direction === 'back') {
             setPosition({
               top: position.top - 1,
               left: position.left - 1,
             })
-          } else if (secondLastSide === 'top') {
-            if (thirdLastSide === 'right') {
-              setPosition({
-                top: position.top - 1,
-                left: position.left - 1,
-              })
-            } else if (thirdLastSide === 'left') {
-              setPosition({
-                top: position.top - 1,
-                left: position.left + 1,
-              })
-            } else if (direction === 'foward') {
-              setPosition({
-                top: position.top - 1,
-                left: position.left + 1,
-              })
-            } else {
-              setPosition({
-                top: position.top - 1,
-                left: position.left - 1,
-              })
-            }
           } else {
             setPosition({
               top: position.top - 1,
@@ -123,41 +107,19 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
             })
           }
         } else if (lastSide === 'right') {
-          if (secondLastSide === 'bottom') {
-            setPosition({
-              top: position.top - 1,
-              left: position.left - 1,
-            })
-          } else if (secondLastSide === 'top') {
+          if (horizontalDir === 'down') {
             setPosition({
               top: position.top + 1,
               left: position.left - 1,
             })
+          } else {
+            setPosition({
+              top: position.top - 1,
+              left: position.left - 1,
+            })
           }
         } else if (lastSide === 'top') {
-          if (secondLastSide === 'bottom') {
-            if (thirdLastSide === 'right') {
-              setPosition({
-                top: position.top + 1,
-                left: position.left - 1,
-              })
-            } else if (thirdLastSide === 'left') {
-              setPosition({
-                top: position.top + 1,
-                left: position.left + 1,
-              })
-            } else if (direction === 'back') {
-              setPosition({
-                top: position.top + 1,
-                left: position.left - 1,
-              })
-            } else if (direction === 'foward') {
-              setPosition({
-                top: position.top + 1,
-                left: position.left + 1,
-              })
-            }
-          } else if (secondLastSide === 'right') {
+          if (direction === 'back') {
             setPosition({
               top: position.top + 1,
               left: position.left - 1,
@@ -169,12 +131,12 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
             })
           }
         } else if (lastSide === 'left') {
-          if (secondLastSide === 'bottom') {
+          if (horizontalDir === 'up') {
             setPosition({
               top: position.top - 1,
               left: position.left + 1,
             })
-          } else if (secondLastSide === 'top') {
+          } else {
             setPosition({
               top: position.top + 1,
               left: position.left + 1,
@@ -195,13 +157,13 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
     }
   }, [
     direction,
+    horizontalDir,
     lastSide,
     maxSize.height,
     maxSize.width,
     position.left,
     position.top,
     secondLastSide,
-    thirdLastSide,
   ])
 
   return (
