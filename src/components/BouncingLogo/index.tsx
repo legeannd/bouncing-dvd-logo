@@ -16,6 +16,15 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
   const [secondLastSide, setSecondLastSide] = useState('')
   const [thirdLastSide, setThirdLastSide] = useState('')
   const [direction, setDirection] = useState('foward')
+  const [color, setColor] = useState('')
+
+  function generateColor() {
+    return `#${Math.random().toString(16).slice(-6)}`
+  }
+
+  useEffect(() => {
+    setColor(generateColor())
+  }, [lastSide])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -197,7 +206,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
 
   return (
     <LogoContainer ref={logoRef} position={position}>
-      <DVDLogo color="white" />
+      <DVDLogo color={color} />
     </LogoContainer>
   )
 }
