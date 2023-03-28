@@ -23,16 +23,15 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
   }
 
   useEffect(() => {
-    console.log('--------------')
-    console.log(direction, 'direction')
-    console.log(horizontalDir, 'horizontalDir')
-    console.log(lastSide, 'last')
-    console.log('--------------')
+    setColor(generateColor())
   }, [lastSide])
 
   useEffect(() => {
-    setColor(generateColor())
-  }, [lastSide])
+    setPosition({
+      top: Math.random() * maxSize.height,
+      left: Math.random() * maxSize.width,
+    })
+  }, [maxSize.height, maxSize.width])
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -66,7 +65,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           } else {
             setLastSide('right')
           }
-        } else if (position.top === 0) {
+        } else if (position.top <= 0) {
           if (lastSide !== '' && lastSide !== 'top') {
             setHorizontalDir('down')
             if (secondLastSide !== '') {
@@ -79,7 +78,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           } else {
             setLastSide('top')
           }
-        } else if (position.left === 0) {
+        } else if (position.left <= 0) {
           setDirection('foward')
           if (lastSide !== '' && lastSide !== 'left') {
             if (secondLastSide !== '') {
@@ -150,7 +149,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           setPosition(newPosition)
         }
       }
-    }, 5)
+    }, 1)
 
     return () => {
       clearInterval(interval)
