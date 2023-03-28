@@ -1,17 +1,30 @@
-import { useEffect, useRef } from 'react'
-import { DVDLogo } from '../../assets/logo'
+import { useEffect, useRef, useState } from 'react'
+import { BouncingLogo } from '../../components/BouncingLogo'
 import { Container } from './styles'
 
 export function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
+  const [maxSize, setMaxSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  })
 
   useEffect(() => {
-    console.log(containerRef.current?.clientHeight)
-  }, [])
+    const handleWindowResize = () => {
+      console.log(window.innerHeight, window.innerWidth)
+      setMaxSize({ width: window.innerWidth, height: window.innerHeight })
+    }
+
+    window.addEventListener('resize', handleWindowResize)
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize)
+    }
+  })
 
   return (
     <Container ref={containerRef}>
-      <DVDLogo color="white" />
+      <BouncingLogo maxSize={maxSize} />
     </Container>
   )
 }

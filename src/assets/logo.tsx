@@ -1,9 +1,9 @@
-export function DVDLogo({ width = '300px', height = '300px', color = '#000' }) {
+export function DVDLogo({ width = '300px', color = '#000' }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={width}
-      height={height}
+      height="100%"
       viewBox="0 0 210 107"
     >
       <path
