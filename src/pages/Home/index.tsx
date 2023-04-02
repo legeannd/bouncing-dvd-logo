@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { BouncingLogo } from "../../components/BouncingLogo";
 import { Menu } from "../../components/Menu";
+import { OptionsContextProvider } from "../../contexts/OptionsContext";
 import { Container } from "./styles";
 
 export function Home() {
@@ -23,9 +24,11 @@ export function Home() {
   });
 
   return (
-    <Container ref={containerRef}>
-      <Menu />
-      <BouncingLogo maxSize={maxSize} />
-    </Container>
+    <OptionsContextProvider>
+      <Container ref={containerRef}>
+        <Menu />
+        <BouncingLogo maxSize={maxSize} />
+      </Container>
+    </OptionsContextProvider>
   );
 }

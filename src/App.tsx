@@ -1,5 +1,5 @@
-import { Home } from './pages/Home'
-import { GlobalStyle } from './styles/global'
+import { Home } from "./pages/Home";
+import { GlobalStyle } from "./styles/global";
 
 function App() {
   return (
@@ -7,7 +7,7 @@ function App() {
       <Home />
       <GlobalStyle />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
