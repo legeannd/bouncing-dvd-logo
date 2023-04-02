@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const Container = styled.div`
   width: 100vw;
@@ -6,4 +6,10 @@ export const Container = styled.div`
   position: relative;
   overflow: hidden;
   background: #000;
-`
+
+  :hover {
+    [class*="menu-container"] {
+      opacity: 1;
+    }
+  }
+`;
