@@ -1,10 +1,10 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 interface LogoContainerProps {
   position: {
-    top: number
-    left: number
-  }
+    top: number;
+    left: number;
+  };
 }
 
 export const LogoContainer = styled.div.attrs<LogoContainerProps>(
@@ -13,7 +13,7 @@ export const LogoContainer = styled.div.attrs<LogoContainerProps>(
       top: `${props.position.top}px`,
       left: `${props.position.left}px`,
     },
-  }),
+  })
 )<LogoContainerProps>`
   position: absolute;
-`
+`;

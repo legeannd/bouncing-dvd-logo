@@ -1,10 +1,15 @@
 import { useContext, useEffect, useState } from "react";
 import { MenuIcon } from "../../assets/menu-icon";
 import { OptionsContext } from "../../contexts/OptionsContext";
-import { MenuContainer, OptionsContainer } from "./styles";
+import { MenuContainer, OptionButton, OptionsContainer } from "./styles";
 
 export function Menu() {
-  const { handleToggleTrace, isTraceEnabled } = useContext(OptionsContext);
+  const {
+    options,
+    handleToggleTrace,
+    handleChangeDirection,
+    handleChangeHorizontalDirection,
+  } = useContext(OptionsContext);
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -17,9 +22,15 @@ export function Menu() {
         <MenuIcon />
       </MenuContainer>
       <OptionsContainer isOpen={isOpen}>
-        <button onClick={handleToggleTrace}>
-          {isTraceEnabled ? "Desativar rastro" : "Ativar rastro"}
-        </button>
+        <OptionButton onClick={handleToggleTrace}>
+          {options.trace ? "Desativar rastro" : "Ativar rastro"}
+        </OptionButton>
+        <OptionButton onClick={() => handleChangeDirection("toggle")}>
+          Alterar direção vertical
+        </OptionButton>
+        <OptionButton onClick={() => handleChangeHorizontalDirection("toggle")}>
+          Alterar direção horizontal
+        </OptionButton>
       </OptionsContainer>
     </>
   );

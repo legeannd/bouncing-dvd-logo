@@ -10,9 +10,8 @@ export const MenuContainer = styled.div<MenuProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${(props) =>
-    props.isOpen ? "rgba(0, 255, 255, 0.3)" : "rgba(255, 255, 255, 0.1)"};
-  z-index: 1;
+  background: ${(props) => (props.isOpen ? "#8F3985" : "#25283D")};
+  z-index: 10;
   position: absolute;
   border-radius: 4px;
   top: 10px;
@@ -22,14 +21,29 @@ export const MenuContainer = styled.div<MenuProps>`
 `;
 
 export const OptionsContainer = styled.div<MenuProps>`
-  opacity: ${(props) => (props.isOpen ? 1 : 0)};
-  display: flex;
+  display: ${(props) => (props.isOpen ? "grid" : "none")};
+  gap: 1rem;
   position: absolute;
   top: 10px;
   left: 70px;
-  background: rgba(255, 255, 255, 0.8);
+  background: #efd9ce;
+  z-index: 10;
   border-radius: 4px;
   color: black;
   padding: 1rem;
   cursor: default;
+`;
+
+export const OptionButton = styled.button`
+  border: 0;
+  background: #a675a1;
+  color: #fff;
+  padding: 1rem;
+  outline: 0;
+  border-radius: 4px;
+  cursor: pointer;
+
+  :hover {
+    background: #8f3985;
+  }
 `;

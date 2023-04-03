@@ -20,7 +20,8 @@ interface PositionWithColorProps extends PositionProps {
 }
 
 export function BouncingLogo({ maxSize }: BouncingLogoProps) {
-  const { isTraceEnabled } = useContext(OptionsContext);
+  const { options, handleChangeDirection, handleChangeHorizontalDirection } =
+    useContext(OptionsContext);
 
   const logoRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<PositionProps>({ top: 0, left: 0 });
@@ -30,8 +31,6 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
   const [traceCount, setTraceCount] = useState(0);
   const [lastSide, setLastSide] = useState("");
   const [secondLastSide, setSecondLastSide] = useState("");
-  const [horizontalDir, setHorizontalDir] = useState("down");
-  const [direction, setDirection] = useState("foward");
   const [color, setColor] = useState("");
 
   function generateColor() {
@@ -44,9 +43,9 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
 
   function handleSetPosition(position: PositionProps) {
     setPosition(position);
-    if (isTraceEnabled) {
+    if (options.trace) {
       if (traceCount === 10) {
-        if (positionsTrace.length >= 100) {
+        if (positionsTrace.length >= 10) {
           positionsTrace.pop();
           setPositionsTrace([{ ...position, color: color }, ...positionsTrace]);
         } else if (positionsTrace.length > 0) {
@@ -75,7 +74,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
       if (logoRef.current) {
         if (maxSize.height - logoRef.current.offsetHeight <= position.top) {
           if (lastSide !== "" && lastSide !== "bottom") {
-            setHorizontalDir("up");
+            handleChangeHorizontalDirection("up");
             if (secondLastSide !== "") {
               setSecondLastSide(lastSide);
               setLastSide("bottom");
@@ -91,7 +90,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           position.left
         ) {
           if (lastSide !== "" && lastSide !== "right") {
-            setDirection("back");
+            handleChangeDirection("back");
             if (secondLastSide !== "") {
               setSecondLastSide(lastSide);
               setLastSide("right");
@@ -104,7 +103,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
           }
         } else if (position.top <= 0) {
           if (lastSide !== "" && lastSide !== "top") {
-            setHorizontalDir("down");
+            handleChangeHorizontalDirection("down");
             if (secondLastSide !== "") {
               setSecondLastSide(lastSide);
               setLastSide("top");
@@ -116,7 +115,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
             setLastSide("top");
           }
         } else if (position.left <= 0) {
-          setDirection("foward");
+          handleChangeDirection("foward");
           if (lastSide !== "" && lastSide !== "left") {
             if (secondLastSide !== "") {
               setSecondLastSide(lastSide);
@@ -131,7 +130,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
         }
 
         if (lastSide === "bottom") {
-          if (direction === "back") {
+          if (options.direction === "back") {
             handleSetPosition({
               top: position.top - 1,
               left: position.left - 1,
@@ -143,7 +142,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
             });
           }
         } else if (lastSide === "right") {
-          if (horizontalDir === "down") {
+          if (options.horizontalDir === "down") {
             handleSetPosition({
               top: position.top + 1,
               left: position.left - 1,
@@ -155,7 +154,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
             });
           }
         } else if (lastSide === "top") {
-          if (direction === "back") {
+          if (options.direction === "back") {
             handleSetPosition({
               top: position.top + 1,
               left: position.left - 1,
@@ -167,7 +166,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
             });
           }
         } else if (lastSide === "left") {
-          if (horizontalDir === "up") {
+          if (options.horizontalDir === "up") {
             handleSetPosition({
               top: position.top - 1,
               left: position.left + 1,
@@ -192,8 +191,8 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
       clearInterval(interval);
     };
   }, [
-    direction,
-    horizontalDir,
+    options.direction,
+    options.horizontalDir,
     lastSide,
     maxSize.height,
     maxSize.width,
