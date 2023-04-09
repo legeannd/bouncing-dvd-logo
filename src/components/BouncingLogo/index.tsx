@@ -29,7 +29,7 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
     PositionWithColorProps[]
   >([]);
   const [traceCount, setTraceCount] = useState(0);
-  const [lastSide, setLastSide] = useState("");
+  const [lastSide, setLastSide] = useState("left");
   const [secondLastSide, setSecondLastSide] = useState("");
   const [color, setColor] = useState("");
 
@@ -71,18 +71,10 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (logoRef.current) {
+      if (logoRef.current && !options.paused) {
         if (maxSize.height - logoRef.current.offsetHeight <= position.top) {
           if (lastSide !== "" && lastSide !== "bottom") {
             handleChangeHorizontalDirection("up");
-            if (secondLastSide !== "") {
-              setSecondLastSide(lastSide);
-              setLastSide("bottom");
-            } else {
-              setSecondLastSide(lastSide);
-              setLastSide("bottom");
-            }
-          } else {
             setLastSide("bottom");
           }
         } else if (
@@ -91,91 +83,123 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
         ) {
           if (lastSide !== "" && lastSide !== "right") {
             handleChangeDirection("back");
-            if (secondLastSide !== "") {
-              setSecondLastSide(lastSide);
-              setLastSide("right");
-            } else {
-              setSecondLastSide(lastSide);
-              setLastSide("right");
-            }
-          } else {
             setLastSide("right");
           }
         } else if (position.top <= 0) {
           if (lastSide !== "" && lastSide !== "top") {
             handleChangeHorizontalDirection("down");
-            if (secondLastSide !== "") {
-              setSecondLastSide(lastSide);
-              setLastSide("top");
-            } else {
-              setSecondLastSide(lastSide);
-              setLastSide("top");
-            }
-          } else {
             setLastSide("top");
           }
         } else if (position.left <= 0) {
-          handleChangeDirection("foward");
           if (lastSide !== "" && lastSide !== "left") {
-            if (secondLastSide !== "") {
-              setSecondLastSide(lastSide);
-              setLastSide("left");
-            } else {
-              setSecondLastSide(lastSide);
-              setLastSide("left");
-            }
-          } else {
+            handleChangeDirection("foward");
             setLastSide("left");
           }
         }
 
         if (lastSide === "bottom") {
           if (options.direction === "back") {
-            handleSetPosition({
-              top: position.top - 1,
-              left: position.left - 1,
-            });
+            if (options.horizontalDir === "down") {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left - 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left - 1,
+              });
+            }
           } else {
-            handleSetPosition({
-              top: position.top - 1,
-              left: position.left + 1,
-            });
+            if (options.horizontalDir === "down") {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left + 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left + 1,
+              });
+            }
           }
         } else if (lastSide === "right") {
           if (options.horizontalDir === "down") {
-            handleSetPosition({
-              top: position.top + 1,
-              left: position.left - 1,
-            });
+            if (options.direction === "foward") {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left + 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left - 1,
+              });
+            }
           } else {
-            handleSetPosition({
-              top: position.top - 1,
-              left: position.left - 1,
-            });
+            if (options.direction === "foward") {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left + 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left - 1,
+              });
+            }
           }
         } else if (lastSide === "top") {
           if (options.direction === "back") {
-            handleSetPosition({
-              top: position.top + 1,
-              left: position.left - 1,
-            });
+            if (options.horizontalDir === "up") {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left - 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left - 1,
+              });
+            }
           } else {
-            handleSetPosition({
-              top: position.top + 1,
-              left: position.left + 1,
-            });
+            if (options.horizontalDir === "up") {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left + 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left + 1,
+              });
+            }
           }
         } else if (lastSide === "left") {
           if (options.horizontalDir === "up") {
-            handleSetPosition({
-              top: position.top - 1,
-              left: position.left + 1,
-            });
+            if (options.direction === "back") {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left - 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top - 1,
+                left: position.left + 1,
+              });
+            }
           } else {
-            handleSetPosition({
-              top: position.top + 1,
-              left: position.left + 1,
-            });
+            if (options.direction === "back") {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left - 1,
+              });
+            } else {
+              handleSetPosition({
+                top: position.top + 1,
+                left: position.left + 1,
+              });
+            }
           }
         } else {
           const newPosition = {
@@ -193,12 +217,12 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
   }, [
     options.direction,
     options.horizontalDir,
+    options.paused,
     lastSide,
     maxSize.height,
     maxSize.width,
     position.left,
     position.top,
-    secondLastSide,
   ]);
 
   return (

@@ -10,10 +10,12 @@ export interface OptionsState {
   trace: boolean;
   direction: string;
   horizontalDir: string;
+  paused: boolean;
 }
 interface OptionsContextType {
   options: OptionsState;
   handleToggleTrace: () => void;
+  handlePause: () => void;
   handleChangeDirection: (direction: string) => void;
   handleChangeHorizontalDirection: (direction: string) => void;
 }
@@ -31,10 +33,15 @@ export function OptionsContextProvider({
     trace: false,
     direction: "foward",
     horizontalDir: "down",
+    paused: false,
   });
 
   function handleToggleTrace() {
     setOptions((option) => ({ ...option, trace: !option.trace }));
+  }
+
+  function handlePause() {
+    setOptions((option) => ({ ...option, paused: !option.paused }));
   }
 
   function handleChangeDirection(direction: string) {
@@ -68,6 +75,7 @@ export function OptionsContextProvider({
     <OptionsContext.Provider
       value={{
         options,
+        handlePause,
         handleToggleTrace,
         handleChangeDirection,
         handleChangeHorizontalDirection,

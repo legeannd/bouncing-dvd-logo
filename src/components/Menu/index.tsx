@@ -6,6 +6,7 @@ import { MenuContainer, OptionButton, OptionsContainer } from "./styles";
 export function Menu() {
   const {
     options,
+    handlePause,
     handleToggleTrace,
     handleChangeDirection,
     handleChangeHorizontalDirection,
@@ -24,6 +25,9 @@ export function Menu() {
       <OptionsContainer isOpen={isOpen}>
         <OptionButton onClick={handleToggleTrace}>
           {options.trace ? "Desativar rastro" : "Ativar rastro"}
+        </OptionButton>
+        <OptionButton onClick={handlePause}>
+          {options.paused ? "Iniciar" : "Parar"}
         </OptionButton>
         <OptionButton onClick={() => handleChangeDirection("toggle")}>
           Alterar direção vertical
