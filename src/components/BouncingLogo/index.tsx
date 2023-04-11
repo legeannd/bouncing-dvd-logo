@@ -2,12 +2,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { DVDLogo } from "../../assets/logo";
 import { OptionsContext } from "../../contexts/OptionsContext";
 import { LogoContainer } from "./styles";
+import { generateColor } from "../../utils";
 
 interface BouncingLogoProps {
   maxSize: {
     width: number;
     height: number;
   };
+  getLastSide: (lastSide: string, currentColor: string) => void;
 }
 
 interface PositionProps {
@@ -19,7 +21,7 @@ interface PositionWithColorProps extends PositionProps {
   color: string;
 }
 
-export function BouncingLogo({ maxSize }: BouncingLogoProps) {
+export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
   const { options, handleChangeDirection, handleChangeHorizontalDirection } =
     useContext(OptionsContext);
 
@@ -30,15 +32,11 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
   >([]);
   const [traceCount, setTraceCount] = useState(0);
   const [lastSide, setLastSide] = useState("left");
-  const [secondLastSide, setSecondLastSide] = useState("");
   const [color, setColor] = useState("");
-
-  function generateColor() {
-    return `#${Math.random().toString(16).slice(-6)}`;
-  }
 
   useEffect(() => {
     setColor(generateColor());
+    getLastSide(lastSide, color);
   }, [lastSide]);
 
   function handleSetPosition(position: PositionProps) {
@@ -68,6 +66,24 @@ export function BouncingLogo({ maxSize }: BouncingLogoProps) {
       left: Math.random() * maxSize.width,
     });
   }, [maxSize.height, maxSize.width]);
+
+  useEffect(() => {
+    if (logoRef.current) {
+      if (
+        maxSize.height + 1.5 * logoRef.current.offsetHeight < position.top ||
+        maxSize.width + 1.5 * logoRef.current.offsetWidth < position.left ||
+        position.left < -(1.5 * logoRef.current.offsetWidth) ||
+        position.top < -1.5 * logoRef.current.offsetHeight
+      ) {
+        setPosition({
+          top: Math.random() * maxSize.height,
+          left: Math.random() * maxSize.width,
+        });
+        handleChangeHorizontalDirection("up");
+        handleChangeDirection("foward");
+      }
+    }
+  }, [maxSize.height, position.top]);
 
   useEffect(() => {
     const interval = setInterval(() => {

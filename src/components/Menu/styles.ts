@@ -22,7 +22,7 @@ export const MenuContainer = styled.div<MenuProps>`
 
 export const OptionsContainer = styled.div<MenuProps>`
   display: ${(props) => (props.isOpen ? "grid" : "none")};
-  gap: 1rem;
+  gap: 0.5rem;
   position: absolute;
   top: 10px;
   left: 70px;

@@ -1,20 +1,16 @@
-import {
-  createContext,
-  ReactNode,
-  useEffect,
-  useReducer,
-  useState,
-} from "react";
+import { createContext, ReactNode, useState } from "react";
 
 export interface OptionsState {
   trace: boolean;
   direction: string;
   horizontalDir: string;
   paused: boolean;
+  randomBackground: boolean;
 }
 interface OptionsContextType {
   options: OptionsState;
   handleToggleTrace: () => void;
+  handleToggleRandomBackground: () => void;
   handlePause: () => void;
   handleChangeDirection: (direction: string) => void;
   handleChangeHorizontalDirection: (direction: string) => void;
@@ -34,10 +30,18 @@ export function OptionsContextProvider({
     direction: "foward",
     horizontalDir: "down",
     paused: false,
+    randomBackground: false,
   });
 
   function handleToggleTrace() {
     setOptions((option) => ({ ...option, trace: !option.trace }));
+  }
+
+  function handleToggleRandomBackground() {
+    setOptions((option) => ({
+      ...option,
+      randomBackground: !option.randomBackground,
+    }));
   }
 
   function handlePause() {
@@ -78,6 +82,7 @@ export function OptionsContextProvider({
         handlePause,
         handleToggleTrace,
         handleChangeDirection,
+        handleToggleRandomBackground,
         handleChangeHorizontalDirection,
       }}
     >

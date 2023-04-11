@@ -9,6 +9,7 @@ export function Menu() {
     handlePause,
     handleToggleTrace,
     handleChangeDirection,
+    handleToggleRandomBackground,
     handleChangeHorizontalDirection,
   } = useContext(OptionsContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -24,16 +25,21 @@ export function Menu() {
       </MenuContainer>
       <OptionsContainer isOpen={isOpen}>
         <OptionButton onClick={handleToggleTrace}>
-          {options.trace ? "Desativar rastro" : "Ativar rastro"}
+          {options.trace ? "Deactivate trace" : "Activate trace"}
         </OptionButton>
         <OptionButton onClick={handlePause}>
-          {options.paused ? "Iniciar" : "Parar"}
+          {options.paused ? "Start" : "Stop"}
         </OptionButton>
         <OptionButton onClick={() => handleChangeDirection("toggle")}>
-          Alterar direção vertical
+          Change vertical direction
         </OptionButton>
         <OptionButton onClick={() => handleChangeHorizontalDirection("toggle")}>
-          Alterar direção horizontal
+          Change horizontal direction
+        </OptionButton>
+        <OptionButton onClick={handleToggleRandomBackground}>
+          {options.randomBackground
+            ? "Deactivate random background color"
+            : "Activate random background color"}
         </OptionButton>
       </OptionsContainer>
     </>
