@@ -6,6 +6,7 @@ export interface OptionsState {
   horizontalDir: string;
   paused: boolean;
   randomBackground: boolean;
+  rotation: boolean;
   customImage: boolean;
   fileUrl: string;
 }
@@ -13,6 +14,7 @@ interface OptionsContextType {
   options: OptionsState;
   imageFile: File | undefined;
   handleToggleTrace: () => void;
+  handleToggleRotation: () => void;
   handleChangeImageFile: (file: File) => void;
   handleToggleCustomImage: () => void;
   handleToggleRandomBackground: () => void;
@@ -38,6 +40,7 @@ export function OptionsContextProvider({
     paused: false,
     randomBackground: false,
     customImage: false,
+    rotation: false,
     fileUrl: "",
   });
 
@@ -56,6 +59,13 @@ export function OptionsContextProvider({
     setOptions((option) => ({
       ...option,
       customImage: !option.customImage,
+    }));
+  }
+
+  function handleToggleRotation() {
+    setOptions((option) => ({
+      ...option,
+      rotation: !option.rotation,
     }));
   }
 
@@ -126,6 +136,7 @@ export function OptionsContextProvider({
         imageFile,
         handlePause,
         handleToggleTrace,
+        handleToggleRotation,
         handleChangeImageFile,
         handleChangeDirection,
         handleToggleCustomImage,

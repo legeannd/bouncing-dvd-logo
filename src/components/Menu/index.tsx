@@ -13,6 +13,7 @@ export function Menu() {
     options,
     handlePause,
     handleToggleTrace,
+    handleToggleRotation,
     handleChangeDirection,
     handleChangeImageFile,
     handleToggleCustomImage,
@@ -55,6 +56,9 @@ export function Menu() {
           {options.randomBackground
             ? "Deactivate random background color"
             : "Activate random background color"}
+        </OptionButton>
+        <OptionButton onClick={handleToggleRotation}>
+          {options.rotation ? "Deactivate rotation" : "Activate rotation"}
         </OptionButton>
         <OptionButton onClick={handleToggleCustomImage}>
           {options.customImage

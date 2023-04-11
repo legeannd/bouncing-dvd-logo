@@ -5,6 +5,7 @@ interface LogoContainerProps {
     top: number;
     left: number;
   };
+  isRotationEnabled: boolean;
 }
 
 export const LogoContainer = styled.div.attrs<LogoContainerProps>(
@@ -16,6 +17,17 @@ export const LogoContainer = styled.div.attrs<LogoContainerProps>(
   })
 )<LogoContainerProps>`
   position: absolute;
+  animation: ${(props) =>
+    props.isRotationEnabled ? "rotation 2s infinite linear" : ""};
+
+  @keyframes rotation {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(359deg);
+    }
+  }
 `;
 
 export const CustomImage = styled.img`

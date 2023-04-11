@@ -243,7 +243,12 @@ export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
 
   return (
     <>
-      <LogoContainer ref={logoRef} position={position} style={{ zIndex: 1 }}>
+      <LogoContainer
+        ref={logoRef}
+        position={position}
+        style={{ zIndex: 1 }}
+        isRotationEnabled={options.rotation}
+      >
         {options.customImage && options.fileUrl !== "" ? (
           <CustomImage src={options.fileUrl} alt="" />
         ) : (
@@ -256,6 +261,7 @@ export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
             key={index}
             position={position}
             style={{ opacity: 0.1 }}
+            isRotationEnabled={options.rotation}
           >
             {options.customImage && options.fileUrl !== "" ? (
               <CustomImage src={options.fileUrl} alt="" />
