@@ -1,7 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { MenuIcon } from "../../assets/menu-icon";
 import { OptionsContext } from "../../contexts/OptionsContext";
-import { MenuContainer, OptionButton, OptionsContainer } from "./styles";
+import {
+  MenuContainer,
+  OptionButton,
+  OptionsContainer,
+  UploadImageButtonContainer,
+} from "./styles";
 
 export function Menu() {
   const {
@@ -9,10 +14,20 @@ export function Menu() {
     handlePause,
     handleToggleTrace,
     handleChangeDirection,
+    handleChangeImageFile,
+    handleToggleCustomImage,
     handleToggleRandomBackground,
     handleChangeHorizontalDirection,
   } = useContext(OptionsContext);
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0].type.startsWith("image")) {
+      handleChangeImageFile(e.target.files[0]);
+    } else {
+      window.alert("Only works with images!");
+    }
+  };
 
   return (
     <>
@@ -41,6 +56,23 @@ export function Menu() {
             ? "Deactivate random background color"
             : "Activate random background color"}
         </OptionButton>
+        <OptionButton onClick={handleToggleCustomImage}>
+          {options.customImage
+            ? "Deactivate custom image for logo"
+            : "Activate custom image for logo"}
+        </OptionButton>
+        {options.customImage && (
+          <UploadImageButtonContainer>
+            <label htmlFor="myfile">Select custom image for logo</label>
+            <input
+              type="file"
+              id="myfile"
+              name="myfile"
+              accept="image/*"
+              onChange={handleFileChange}
+            />
+          </UploadImageButtonContainer>
+        )}
       </OptionsContainer>
     </>
   );

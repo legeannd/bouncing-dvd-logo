@@ -17,3 +17,9 @@ export const LogoContainer = styled.div.attrs<LogoContainerProps>(
 )<LogoContainerProps>`
   position: absolute;
 `;
+
+export const CustomImage = styled.img`
+  max-width: 500px;
+  max-height: 500px;
+  background-color: red;
+`;

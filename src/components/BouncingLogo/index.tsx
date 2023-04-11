@@ -1,7 +1,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { DVDLogo } from "../../assets/logo";
 import { OptionsContext } from "../../contexts/OptionsContext";
-import { LogoContainer } from "./styles";
+import { CustomImage, LogoContainer } from "./styles";
 import { generateColor } from "../../utils";
 
 interface BouncingLogoProps {
@@ -244,7 +244,11 @@ export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
   return (
     <>
       <LogoContainer ref={logoRef} position={position} style={{ zIndex: 1 }}>
-        <DVDLogo color={color} />
+        {options.customImage && options.fileUrl !== "" ? (
+          <CustomImage src={options.fileUrl} alt="" />
+        ) : (
+          <DVDLogo color={color} />
+        )}
       </LogoContainer>
       {positionsTrace.length > 0 &&
         positionsTrace.map((position, index) => (
@@ -253,7 +257,11 @@ export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
             position={position}
             style={{ opacity: 0.1 }}
           >
-            <DVDLogo color={position.color} />
+            {options.customImage && options.fileUrl !== "" ? (
+              <CustomImage src={options.fileUrl} alt="" />
+            ) : (
+              <DVDLogo color={position.color} />
+            )}
           </LogoContainer>
         ))}
     </>

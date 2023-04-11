@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useState } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
 export interface OptionsState {
   trace: boolean;
@@ -6,10 +6,15 @@ export interface OptionsState {
   horizontalDir: string;
   paused: boolean;
   randomBackground: boolean;
+  customImage: boolean;
+  fileUrl: string;
 }
 interface OptionsContextType {
   options: OptionsState;
+  imageFile: File | undefined;
   handleToggleTrace: () => void;
+  handleChangeImageFile: (file: File) => void;
+  handleToggleCustomImage: () => void;
   handleToggleRandomBackground: () => void;
   handlePause: () => void;
   handleChangeDirection: (direction: string) => void;
@@ -25,12 +30,15 @@ interface OptionsContextProviderProps {
 export function OptionsContextProvider({
   children,
 }: OptionsContextProviderProps) {
+  const [imageFile, setImageFile] = useState<File>();
   const [options, setOptions] = useState({
     trace: false,
     direction: "foward",
     horizontalDir: "down",
     paused: false,
     randomBackground: false,
+    customImage: false,
+    fileUrl: "",
   });
 
   function handleToggleTrace() {
@@ -42,6 +50,17 @@ export function OptionsContextProvider({
       ...option,
       randomBackground: !option.randomBackground,
     }));
+  }
+
+  function handleToggleCustomImage() {
+    setOptions((option) => ({
+      ...option,
+      customImage: !option.customImage,
+    }));
+  }
+
+  function handleChangeImageFile(file: File) {
+    setImageFile(file);
   }
 
   function handlePause() {
@@ -75,13 +94,41 @@ export function OptionsContextProvider({
       }));
     }
   }
+
+  useEffect(() => {
+    let isCancel = false;
+    const fileReader = new FileReader();
+    if (imageFile) {
+      const fileReader = new FileReader();
+      fileReader.onload = (e) => {
+        const { result } = fileReader;
+        if (result && !isCancel) {
+          setOptions((option) => ({
+            ...option,
+            fileUrl: result.toString(),
+          }));
+        }
+      };
+      fileReader.readAsDataURL(imageFile);
+    }
+    return () => {
+      isCancel = true;
+      if (imageFile && fileReader.readyState === 1) {
+        fileReader.abort();
+      }
+    };
+  }, [imageFile]);
+
   return (
     <OptionsContext.Provider
       value={{
         options,
+        imageFile,
         handlePause,
         handleToggleTrace,
+        handleChangeImageFile,
         handleChangeDirection,
+        handleToggleCustomImage,
         handleToggleRandomBackground,
         handleChangeHorizontalDirection,
       }}

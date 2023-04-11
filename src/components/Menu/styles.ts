@@ -22,6 +22,7 @@ export const MenuContainer = styled.div<MenuProps>`
 
 export const OptionsContainer = styled.div<MenuProps>`
   display: ${(props) => (props.isOpen ? "grid" : "none")};
+  grid-template-columns: 1fr 1fr;
   gap: 0.5rem;
   position: absolute;
   top: 10px;
@@ -42,8 +43,33 @@ export const OptionButton = styled.button`
   outline: 0;
   border-radius: 4px;
   cursor: pointer;
+  text-align: center;
 
   :hover {
     background: #8f3985;
+  }
+`;
+
+export const UploadImageButtonContainer = styled.div`
+  background: #a675a1;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+  text-align: center;
+
+  label {
+    cursor: pointer;
+  }
+
+  :hover {
+    background: #8f3985;
+  }
+
+  input {
+    display: none;
   }
 `;
