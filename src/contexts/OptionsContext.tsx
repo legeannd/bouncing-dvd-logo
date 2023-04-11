@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 export interface OptionsState {
-  trace: boolean;
+  trail: boolean;
   direction: string;
   horizontalDir: string;
   paused: boolean;
@@ -13,7 +13,7 @@ export interface OptionsState {
 interface OptionsContextType {
   options: OptionsState;
   imageFile: File | undefined;
-  handleToggleTrace: () => void;
+  handleToggleTrail: () => void;
   handleToggleRotation: () => void;
   handleChangeImageFile: (file: File) => void;
   handleToggleCustomImage: () => void;
@@ -34,7 +34,7 @@ export function OptionsContextProvider({
 }: OptionsContextProviderProps) {
   const [imageFile, setImageFile] = useState<File>();
   const [options, setOptions] = useState({
-    trace: false,
+    trail: false,
     direction: "foward",
     horizontalDir: "down",
     paused: false,
@@ -44,8 +44,8 @@ export function OptionsContextProvider({
     fileUrl: "",
   });
 
-  function handleToggleTrace() {
-    setOptions((option) => ({ ...option, trace: !option.trace }));
+  function handleToggleTrail() {
+    setOptions((option) => ({ ...option, trail: !option.trail }));
   }
 
   function handleToggleRandomBackground() {
@@ -135,7 +135,7 @@ export function OptionsContextProvider({
         options,
         imageFile,
         handlePause,
-        handleToggleTrace,
+        handleToggleTrail,
         handleToggleRotation,
         handleChangeImageFile,
         handleChangeDirection,

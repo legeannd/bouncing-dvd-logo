@@ -27,10 +27,10 @@ export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
 
   const logoRef = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState<PositionProps>({ top: 0, left: 0 });
-  const [positionsTrace, setPositionsTrace] = useState<
+  const [positionsTrail, setPositionsTrail] = useState<
     PositionWithColorProps[]
   >([]);
-  const [traceCount, setTraceCount] = useState(0);
+  const [trailCount, setTrailCount] = useState(0);
   const [lastSide, setLastSide] = useState("left");
   const [color, setColor] = useState("");
 
@@ -41,22 +41,22 @@ export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
 
   function handleSetPosition(position: PositionProps) {
     setPosition(position);
-    if (options.trace) {
-      if (traceCount === 10) {
-        if (positionsTrace.length >= 10) {
-          positionsTrace.pop();
-          setPositionsTrace([{ ...position, color: color }, ...positionsTrace]);
-        } else if (positionsTrace.length > 0) {
-          setPositionsTrace([{ ...position, color: color }, ...positionsTrace]);
+    if (options.trail) {
+      if (trailCount === 10) {
+        if (positionsTrail.length >= 10) {
+          positionsTrail.pop();
+          setPositionsTrail([{ ...position, color: color }, ...positionsTrail]);
+        } else if (positionsTrail.length > 0) {
+          setPositionsTrail([{ ...position, color: color }, ...positionsTrail]);
         } else {
-          setPositionsTrace([{ ...position, color: color }]);
+          setPositionsTrail([{ ...position, color: color }]);
         }
-        setTraceCount(0);
+        setTrailCount(0);
       } else {
-        setTraceCount(traceCount + 1);
+        setTrailCount(trailCount + 1);
       }
     } else {
-      setPositionsTrace([]);
+      setPositionsTrail([]);
     }
   }
 
@@ -255,8 +255,8 @@ export function BouncingLogo({ maxSize, getLastSide }: BouncingLogoProps) {
           <DVDLogo color={color} />
         )}
       </LogoContainer>
-      {positionsTrace.length > 0 &&
-        positionsTrace.map((position, index) => (
+      {positionsTrail.length > 0 &&
+        positionsTrail.map((position, index) => (
           <LogoContainer
             key={index}
             position={position}

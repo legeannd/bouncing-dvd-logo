@@ -12,7 +12,7 @@ export function Menu() {
   const {
     options,
     handlePause,
-    handleToggleTrace,
+    handleToggleTrail,
     handleToggleRotation,
     handleChangeDirection,
     handleChangeImageFile,
@@ -40,8 +40,8 @@ export function Menu() {
         <MenuIcon />
       </MenuContainer>
       <OptionsContainer isOpen={isOpen}>
-        <OptionButton onClick={handleToggleTrace}>
-          {options.trace ? "Deactivate trace" : "Activate trace"}
+        <OptionButton onClick={handleToggleTrail}>
+          {options.trail ? "Deactivate trail" : "Activate trail"}
         </OptionButton>
         <OptionButton onClick={handlePause}>
           {options.paused ? "Start" : "Stop"}
